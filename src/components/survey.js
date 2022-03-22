@@ -6,40 +6,52 @@ import { MDBContainer, MDBRow, MDBCol,
   MDBCard,MDBBtn } from "mdbreact";
   import { Button,Section } from 'react-bulma-components';
   import moment from "moment";
-  import './onboard.css';
-  import randomstring from 'randomstring'; 
+
+
 import 'bulma/css/bulma.min.css';
-const Onboard = () => {
+const Mail = () => {
     const [username, setusername]=useState('');
+    const [password, setpassword]=useState('');
     const [email, setemail]=useState('');
     const history=useHistory();
     const date_create= moment().format("DD-MM-YYYY hh:mm:ss")
-    const sendemail = async (e)=>{
+    const checkusername = async (e)=>{
       const devEnv=process.env.NODE_ENV !== "production";
-      const {REACT_APP_PROD_URL_mail,REACT_APP_PROD_URL,REACT_APP_DEV_URL_mail,REACT_APP_DEV_URL_sendmail} =process.env;
-        await axios.post(`${devEnv  ? REACT_APP_DEV_URL_sendmail : REACT_APP_PROD_URL}/send-mail`,{
-          data:{
-           target:email,
-           subject:`Fintech new Customer`,
-           html:`<h3>Welcome aboard ${username}<h3>
-                <div>Halo, ${username}, welcome to fintech, use this link to process next step</div>
-                <div><a href="${devEnv  ? REACT_APP_DEV_URL_mail : REACT_APP_PROD_URL_mail}">Click Here</a><div>
-           
-           `
+      const {REACT_APP_DEV_URL,REACT_APP_PROD_URL} =process.env;
+        await axios.get(`${devEnv  ? REACT_APP_DEV_URL : REACT_APP_PROD_URL}/user`,{
+          params:{
+           username:username
           }
        }).then((respon)=>{
          console.log(respon.data);
-           })
+          if(respon.data.length===0){
+           saveUser();
+          }
+          else{
+              window.alert('username already taken');
+          }
+       })
      }
 
-    
+    const saveUser = async (e)=>{
+      const devEnv=process.env.NODE_ENV !== "production";
+      const {REACT_APP_DEV_URL,REACT_APP_PROD_URL} =process.env;
+        await axios.post(`${devEnv  ? REACT_APP_DEV_URL : REACT_APP_PROD_URL}/user`,{     
+            username:username,
+            password:password,
+            email:email,
+            createdAt:date_create,
+            updatedAt:date_create
+        })
+        history.push("/");
+    }
   return (
     <center>
-    <MDBContainer size="20" >
-      <MDBCard className='mt-5 column is-10'>
+    <MDBContainer size="12" >
+      <MDBCard className='mt-5 column is-6'>
     <MDBCol>
     <MDBRow className='mb-2'>
-      <MDBCol><h2 className='is-size-2'>Customer Form</h2></MDBCol>
+      <MDBCol><h2 className='is-size-2'>Sign Up Form</h2></MDBCol>
     </MDBRow>
     <MDBRow>
       <MDBCol>Username</MDBCol>
@@ -64,11 +76,23 @@ const Onboard = () => {
                      /></MDBCol>
     </MDBRow>
     
-   
+    <MDBRow>
+      <MDBCol><p>Password</p></MDBCol>
+    </MDBRow>
+
+    <MDBRow>
+      <MDBCol> <input className="input is-info is-small column is-6" 
+                    type="password"
+                     placeholder="password"
+                     value={password}
+                     onChange={(e) =>setpassword(e.target.value)}
+                     />
+      </MDBCol>
+    </MDBRow>
     <MDBRow className='mt-2 pb-4'>
       <MDBCol>
     
-      <Button color="info" onClick={sendemail}>Generate Link</Button>
+      <Button color="info" onClick={checkusername}>Sign Up</Button>
   
         </MDBCol>
      </MDBRow>
@@ -80,4 +104,4 @@ const Onboard = () => {
   )
 }
 
-export default Onboard
+export default Mail

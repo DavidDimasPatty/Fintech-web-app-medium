@@ -9,14 +9,17 @@
     "axios": "^0.26.1",
     "bulma": "^0.9.3",
     "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "fa-icons": "^0.2.0",
     "json-server": "^0.17.0",
     "mdb-ui-kit": "^3.11.0",
     "mdbreact": "^5.2.0",
     "moment": "^2.29.1",
+    "nodemailer": "^6.7.3",
     "path": "^0.12.7",
     "prop-types": "^15.8.1",
+    "randomstring": "^1.2.2",
     "react": "^17.0.2",
     "react-bulma-components": "^4.1.0",
     "react-client-session": "^0.0.8",
@@ -34,7 +37,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "server": "json-server --watch db.json --port 5000"
+    "server": "json-server --watch db.json --port 5000",
+    "dev":"node server.js"
   },
   "eslintConfig": {
     "extends": [
