@@ -6,6 +6,10 @@ import Home from "./components/home"
 import CustomerList from "./components/customerList"
 import Profile from "./components/profile"
 import Onboard from "./components/onboard"
+import Mail from "./components/survey"
+import Mail2 from "./components/survey2"
+import Mail3 from "./components/survey3"
+import CompleteSurvey from "./components/complete_survey"
 import "./components/app.css"
 
 import { ReactSession } from 'react-client-session';
@@ -48,7 +52,19 @@ function App() {
                  <Onboard />
                  </body>
             </Route>
-          
+
+            <Route exact path="/mail/:url_mail/:username">
+                 <Mail/>
+            </Route>
+            <Route exact path="/mail2/:url_mail/:username">
+                 <Mail2/>
+            </Route>
+            <Route exact path="/mail3/:url_mail/:username">
+                 <Mail3/>
+            </Route>
+            <Route exact path="/complete/:url_mail/:username">
+                 <CompleteSurvey/>
+            </Route>
            </Switch>
       
     </Router>

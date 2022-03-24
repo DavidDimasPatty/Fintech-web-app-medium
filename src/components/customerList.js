@@ -64,8 +64,6 @@ const CustomerList = () => {
               <MDBCol>{customers.email}</MDBCol>
             </MDBRow>
             <MDBRow>
-            <MDBCol>Status </MDBCol>
-              <MDBCol>Status : Pending</MDBCol>
             </MDBRow>
 
             <MDBRow className='mt-4 pb-2'>

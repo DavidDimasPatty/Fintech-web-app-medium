@@ -14,7 +14,37 @@ const Onboard = () => {
     const [email, setemail]=useState('');
     const history=useHistory();
     const date_create= moment().format("DD-MM-YYYY hh:mm:ss")
-    const sendemail = async (e)=>{
+    
+    const saveUrl= async(e)=>{
+      const randomUrl=Math.floor(100000000 + Math.random() * 900000000);
+      const devEnv=process.env.NODE_ENV !== "production";
+      const {REACT_APP_PROD_URL,REACT_APP_DEV_URL} =process.env;
+      await axios.post(`${devEnv  ? REACT_APP_DEV_URL : REACT_APP_PROD_URL}/mail_url`,
+         { 
+                    url:randomUrl
+              
+            })
+
+        savecustomer();
+        sendemail(randomUrl);
+    }
+
+    const savecustomer= async(e)=>{
+      const devEnv=process.env.NODE_ENV !== "production";
+      const {REACT_APP_PROD_URL,REACT_APP_DEV_URL} =process.env;
+      await axios.post(`${devEnv  ? REACT_APP_DEV_URL : REACT_APP_PROD_URL}/customer`,{
+        name: username,
+      email: email,
+      birth: "",
+      country: "",
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      })
+      
+    }
+
+
+    const sendemail = async (random)=>{
       const devEnv=process.env.NODE_ENV !== "production";
       const {REACT_APP_PROD_URL_mail,REACT_APP_PROD_URL,REACT_APP_DEV_URL_mail,REACT_APP_DEV_URL_sendmail} =process.env;
         await axios.post(`${devEnv  ? REACT_APP_DEV_URL_sendmail : REACT_APP_PROD_URL}/send-mail`,{
@@ -23,7 +53,7 @@ const Onboard = () => {
            subject:`Fintech new Customer`,
            html:`<h3>Welcome aboard ${username}<h3>
                 <div>Halo, ${username}, welcome to fintech, use this link to process next step</div>
-                <div><a href="${devEnv  ? REACT_APP_DEV_URL_mail : REACT_APP_PROD_URL_mail}">Click Here</a><div>
+                <div><a href="${devEnv  ? REACT_APP_DEV_URL_mail : REACT_APP_PROD_URL_mail}/${random}/${username}">Click Here</a><div>
            
            `
           }
@@ -68,7 +98,7 @@ const Onboard = () => {
     <MDBRow className='mt-2 pb-4'>
       <MDBCol>
     
-      <Button color="info" onClick={sendemail}>Generate Link</Button>
+      <Button color="info" onClick={saveUrl}>Generate Link</Button>
   
         </MDBCol>
      </MDBRow>

@@ -8,10 +8,12 @@ import { MDBContainer, MDBRow, MDBCol,
 
 
 import 'bulma/css/bulma.min.css';
-const Mail = () => {
-  const [passport, setpassport]=useState('');
+const Mail2 = () => {
+  const [video, setvideo]=useState('');
   const history=useHistory();
+  const date_create= moment().format("DD-MM-YYYY hh:mm:ss")
   const {url_mail}=useParams();
+
   const {username}=useParams();
 
   useEffect(() => {
@@ -39,6 +41,9 @@ const Mail = () => {
     }
 
     
+     
+
+   
   return (
     <center>
     <MDBContainer size="12" >
@@ -48,22 +53,22 @@ const Mail = () => {
       <MDBCol><h2 className='is-size-2'>Form</h2></MDBCol>
     </MDBRow>
     <MDBRow>
-      <MDBCol>Upload your passport</MDBCol>
+      <MDBCol>Video of yourself (5 seconds maximum)</MDBCol>
     </MDBRow>
     <MDBRow>
       <MDBCol><input className="input "
                      type="file"
                      placeholder="username"
-                     accept="application/pdf"
-                     value={passport}
-                     onChange={(e) =>setpassport(e.target.value)}
+                     accept="video/mp4,video/x-m4v,video/*"
+                     value={video}
+                     onChange={(e) =>setvideo(e.target.value)}
                      /></MDBCol>
     </MDBRow>
    
     <MDBRow className='mt-2 pb-4'>
       <MDBCol>
     
-     <Link to={`/mail2/${url_mail}/${username}`} className='button is-small is-info'>Next</Link> 
+     <Link to={`/mail3/${url_mail}/${username}`} className='button is-small is-info'>Next</Link> 
   
         </MDBCol>
      </MDBRow>
@@ -72,7 +77,8 @@ const Mail = () => {
   </MDBContainer>
             
     </center>  
+            
   )
 }
 
-export default Mail
+export default Mail2
