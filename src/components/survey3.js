@@ -9,17 +9,21 @@ import { MDBContainer, MDBRow, MDBCol,
 
 import 'bulma/css/bulma.min.css';
 const Mail3 = () => {
-  const [users, setusername]=useState('');
-  const [password, setpassword]=useState('');
-  const [email, setemail]=useState('');
+  const [birth, setbirth]=useState('');
+  const [passportnum, setpassportnum]=useState('');
+  const [region, setregion]=useState('');
+  const [phone, setphone]=useState('');
+  const [id, setid]=useState('');
+  const [address, setaddress]=useState('');
+  const [occupation, setoccupation]=useState('');
   const history=useHistory();
   const date_create= moment().format("DD-MM-YYYY hh:mm:ss")
   const {url_mail}=useParams();
-
   const {username}=useParams();
 
   useEffect(() => {
     checkemail();
+    checkid();
   }, []);
 
     const checkemail=async(e)=>{
@@ -42,36 +46,35 @@ const Mail3 = () => {
      }).catch((err) => console.log(err));
     }
 
-    const checkusername = async (e)=>{
+    const checkid=async(e)=>{
       const devEnv=process.env.NODE_ENV !== "production";
       const {REACT_APP_DEV_URL,REACT_APP_PROD_URL} =process.env;
-     
-        await axios.get(`${devEnv  ? REACT_APP_DEV_URL : REACT_APP_PROD_URL}/user`,{
-          params:{
-           username:username
-          }
-       }).then((respon)=>{
-         console.log(respon.data);
-          if(respon.data.length===0){
-           saveUser();
-          }
-          else{
-              window.alert('username already taken');
-          }
-       })
-     }
+      await axios.get(`${devEnv  ? REACT_APP_DEV_URL : REACT_APP_PROD_URL}/customer`,{
+        params:{
+          name:username
+        }  
+      
+      })
+      .then((respon)=>{
+        console.log(respon.data[0].id)
+        setid(respon.data[0].id);
+      })
+      }
 
-    const saveUser = async (e)=>{
+    const editCustomer = async (e)=>{
       const devEnv=process.env.NODE_ENV !== "production";
       const {REACT_APP_DEV_URL,REACT_APP_PROD_URL} =process.env;
-        await axios.post(`${devEnv  ? REACT_APP_DEV_URL : REACT_APP_PROD_URL}/user`,{     
-            username:username,
-            password:password,
-            email:email,
-            createdAt:date_create,
-            updatedAt:date_create
+        await axios.patch(`${devEnv  ? REACT_APP_DEV_URL : REACT_APP_PROD_URL}/customer/${id}`,{     
+            birth:birth,
+            passnum:passportnum,
+            country:region,
+            occupation:occupation,
+            address:address,
+            phone:phone,
+            status:"complete",
+            updatedAt:Date.now()
         })
-        history.push("/");
+        history.push(`/complete/${url_mail}/${username}`)
     }
   return (
     <center>
@@ -89,8 +92,8 @@ const Mail3 = () => {
                      type="date"
                      maxDate={Date.now()}
                      placeholder="username"
-                     value={username}
-                     onChange={(e) =>setusername(e.target.value)}
+                     value={birth}
+                     onChange={(e) =>setbirth(e.target.value)}
                      /></MDBCol>
     </MDBRow>
     <MDBRow>
@@ -100,8 +103,8 @@ const Mail3 = () => {
       <MDBCol><input className="input is-info is-small column is-6"
                      type="text"
                      placeholder="Passport Number"
-                     value={email}
-                     onChange={(e) =>setemail(e.target.value)}
+                     value={passportnum}
+                     onChange={(e) =>setpassportnum(e.target.value)}
                      /></MDBCol>
     </MDBRow>
     
@@ -112,8 +115,8 @@ const Mail3 = () => {
     <MDBRow>
       <MDBCol> <select class="select is-info"
                     type="select"
-                     value={password}
-                     onChange={(e) =>setpassword(e.target.value)}
+                     value={region}
+                     onChange={(e) =>setregion(e.target.value)}
                     >
        <option value="Afganistan">Afghanistan</option>
        <option value="Albania">Albania</option>
@@ -373,8 +376,8 @@ const Mail3 = () => {
       <MDBCol> <input className="input is-info is-small column is-6" 
                     type="tel"
                      placeholder="password"
-                     value={password}
-                     onChange={(e) =>setpassword(e.target.value)}
+                     value={phone}
+                     onChange={(e) =>setphone(e.target.value)}
                      />
       </MDBCol>
     </MDBRow>
@@ -386,8 +389,8 @@ const Mail3 = () => {
     <MDBRow>
       <MDBCol> <input className="input is-info is-small column is-6" 
                     type="text"
-                     value={password}
-                     onChange={(e) =>setpassword(e.target.value)}
+                     value={address}
+                     onChange={(e) =>setaddress(e.target.value)}
                      />
       </MDBCol>
     </MDBRow>
@@ -399,8 +402,8 @@ const Mail3 = () => {
     <MDBRow>
       <MDBCol> <input className="input is-info is-small column is-6" 
                     type="text"
-                     value={password}
-                     onChange={(e) =>setpassword(e.target.value)}
+                     value={occupation}
+                     onChange={(e) =>setoccupation(e.target.value)}
                      />
       </MDBCol>
     </MDBRow>
@@ -408,7 +411,7 @@ const Mail3 = () => {
     <MDBRow className='mt-2 pb-4'>
       <MDBCol>
     
-      <Button color="info" onClick={checkusername}>Submit</Button>
+      <Button color="info" onClick={editCustomer}>Submit</Button>
   
         </MDBCol>
      </MDBRow>

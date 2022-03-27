@@ -9,14 +9,39 @@ import { MDBContainer, MDBRow, MDBCol,
 
 import 'bulma/css/bulma.min.css';
 const Mail = () => {
-  const [passport, setpassport]=useState('');
+  const [passport2, setpassport] = useState('');
+  const [passport, setSavepassport]=useState(null);
   const history=useHistory();
   const {url_mail}=useParams();
   const {username}=useParams();
+  const [id, setid]=useState('');
 
   useEffect(() => {
     checkemail();
+    checkid();
   }, []);
+
+  function handleUploadChange(e) {
+    let uploaded = e.target.files[0];
+    setpassport(URL.createObjectURL(uploaded))
+    console.log(passport2)
+    setSavepassport(uploaded);
+  }
+
+  const checkid=async(e)=>{
+    const devEnv=process.env.NODE_ENV !== "production";
+    const {REACT_APP_DEV_URL,REACT_APP_PROD_URL} =process.env;
+    await axios.get(`${devEnv  ? REACT_APP_DEV_URL : REACT_APP_PROD_URL}/customer`,{
+      params:{
+        name:username
+      }  
+    
+    })
+    .then((respon)=>{
+      console.log(respon.data[0].id)
+      setid(respon.data[0].id);
+    })
+    }
 
     const checkemail=async(e)=>{
       const devEnv=process.env.NODE_ENV !== "production";
@@ -38,6 +63,28 @@ const Mail = () => {
      }).catch((err) => console.log(err));
     }
 
+    const downloadFile=async(e)=>{
+      if(passport){
+      let formData = new FormData();
+      formData.append("file", passport);
+      formData.append("id",id)
+      const devEnv=process.env.NODE_ENV !== "production";
+      const {REACT_APP_DEV_URL_sendmail ,REACT_APP_PROD_URL} =process.env;
+      e.preventDefault();
+      fetch(`${devEnv  ? REACT_APP_DEV_URL_sendmail : REACT_APP_PROD_URL}/download`, {
+        method: "POST",
+        body: formData,
+      })
+      .then(
+        history.push(`/mail2/${url_mail}/${username}`))
+      .catch((err) => console.log(err));
+      }
+    } 
+    
+
+   
+  
+
     
   return (
     <center>
@@ -51,20 +98,18 @@ const Mail = () => {
       <MDBCol>Upload your passport</MDBCol>
     </MDBRow>
     <MDBRow>
-      <MDBCol><input className="input "
-                     type="file"
-                     placeholder="username"
-                     accept="application/pdf"
-                     value={passport}
-                     onChange={(e) =>setpassport(e.target.value)}
+      <MDBCol><input onChange={handleUploadChange}
+                      type="file"
+                      accept="application/pdf"
                      /></MDBCol>
     </MDBRow>
    
     <MDBRow className='mt-2 pb-4'>
       <MDBCol>
     
-     <Link to={`/mail2/${url_mail}/${username}`} className='button is-small is-info'>Next</Link> 
-  
+      <button onClick={downloadFile} className="btn btn-primary mt-2 w-100">
+              Next
+            </button>
         </MDBCol>
      </MDBRow>
     </MDBCol>

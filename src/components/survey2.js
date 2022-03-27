@@ -4,21 +4,44 @@ import { useHistory,useParams,Link} from 'react-router-dom';
 import { MDBContainer, MDBRow, MDBCol,
   MDBCard,MDBBtn } from "mdbreact";
   import { Button,Section } from 'react-bulma-components';
-  import moment from "moment";
 
 
 import 'bulma/css/bulma.min.css';
 const Mail2 = () => {
-  const [video, setvideo]=useState('');
+  const [passport2, setpassport] = useState('');
+  const [passport, setSavepassport]=useState('');
   const history=useHistory();
-  const date_create= moment().format("DD-MM-YYYY hh:mm:ss")
   const {url_mail}=useParams();
-
   const {username}=useParams();
+  const [id, setid]=useState('');
+  const [filename,setfilename]=useState('');
 
   useEffect(() => {
     checkemail();
+    checkid();
   }, []);
+
+  function handleUploadChange(e) {
+    let uploaded = e.target.files[0];
+    setpassport(URL.createObjectURL(uploaded))
+    console.log(passport2)
+    setSavepassport(uploaded);
+  }
+
+  const checkid=async(e)=>{
+    const devEnv=process.env.NODE_ENV !== "production";
+    const {REACT_APP_DEV_URL,REACT_APP_PROD_URL} =process.env;
+    await axios.get(`${devEnv  ? REACT_APP_DEV_URL : REACT_APP_PROD_URL}/customer`,{
+      params:{
+        name:username
+      }  
+    
+    })
+    .then((respon)=>{
+      console.log(respon.data[0].id)
+      setid(respon.data[0].id);
+    })
+    }
 
     const checkemail=async(e)=>{
       const devEnv=process.env.NODE_ENV !== "production";
@@ -40,10 +63,31 @@ const Mail2 = () => {
      }).catch((err) => console.log(err));
     }
 
+    const downloadFile=async(e)=>{
+      if(passport){
+      let formData = new FormData();
+      formData.append("video", passport);
+      formData.append("id",id)
+      const devEnv=process.env.NODE_ENV !== "production";
+      const {REACT_APP_DEV_URL_sendmail ,REACT_APP_PROD_URL} =process.env;
+      e.preventDefault();
+      fetch(`${devEnv  ? REACT_APP_DEV_URL_sendmail : REACT_APP_PROD_URL}/download2`, {
+        method: "POST",
+        body: formData,
+      }
+      )
+      .then( 
+        history.push(`/mail3/${url_mail}/${username}`))
+      .catch((err) => console.log(err));
+      
+  }
+    } 
     
-     
 
    
+  
+
+    
   return (
     <center>
     <MDBContainer size="12" >
@@ -53,23 +97,20 @@ const Mail2 = () => {
       <MDBCol><h2 className='is-size-2'>Form</h2></MDBCol>
     </MDBRow>
     <MDBRow>
-      <MDBCol>Video of yourself (5 seconds maximum)</MDBCol>
+      <MDBCol>Upload Video (maximum 5 second)</MDBCol>
     </MDBRow>
     <MDBRow>
-      <MDBCol><input className="input "
-                     type="file"
-                     placeholder="username"
-                     accept="video/mp4,video/x-m4v,video/*"
-                     value={video}
-                     onChange={(e) =>setvideo(e.target.value)}
-                     /></MDBCol>
+      <MDBCol><input onChange={handleUploadChange}
+                      type="file"
+                      accept="video/*"
+                               /></MDBCol>
     </MDBRow>
    
     <MDBRow className='mt-2 pb-4'>
       <MDBCol>
-    
-     <Link to={`/mail3/${url_mail}/${username}`} className='button is-small is-info'>Next</Link> 
-  
+      <button onClick={downloadFile} className="btn btn-primary mt-2 w-100">
+              Next
+            </button>
         </MDBCol>
      </MDBRow>
     </MDBCol>
@@ -77,7 +118,6 @@ const Mail2 = () => {
   </MDBContainer>
             
     </center>  
-            
   )
 }
 

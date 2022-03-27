@@ -8,18 +8,39 @@ import { MDBContainer, MDBRow, MDBCol,
   MDBCard,MDBBtn } from "mdbreact";
 
 import { ReactSession } from 'react-client-session';
+import { Button } from 'react-bulma-components';
 
 const Profile = () => {
     const [name, setName]=useState('');
     const [email, setEmail]=useState('');
     const [birth, setBirth]=useState('');
     const [country, setCountry]=useState('');
+    const [filename, setfilename]=useState(''); 
+    const [video, setvideo]=useState(''); 
+    const [passnum, setpassnum]=useState(''); 
+    const [occupation, setoccupation]=useState(''); 
+    const [address, setaddress]=useState(''); 
+    const [phone, setphone]=useState('');  
+    const [status, setstatus]=useState('');  
     const {id}=useParams();
    
     const history=useHistory();
     useEffect(()=>{
         getProfile();
     },[]);
+
+    function download(links){
+      const link = document.createElement('a');
+      link.href = links;
+      link.target="__blank"
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+    
+    
+  
+    
 
     const getProfile = async ()=>{
     const devEnv=process.env.NODE_ENV !== "production";
@@ -31,6 +52,14 @@ const Profile = () => {
         setEmail(response.data.email);
         setBirth(response.data.birth);
         setCountry(response.data.country);
+         setfilename(response.data.filename); 
+        setvideo(response.data.videourl); 
+        setpassnum(response.data.passnum); 
+        setoccupation(response.data.occupation); 
+        setaddress(response.data.address); 
+        setphone(response.data.phone);  
+        setstatus(response.data.status);  
+       
     }
     const token=ReactSession.get("login");
     console.log(token);
@@ -62,15 +91,51 @@ const Profile = () => {
       </MDBRow>
      
       <MDBRow>
-      <center>  <MDBCol><h3 className='is-size-2'>{birth}</h3></MDBCol></center>
+      <center>  <MDBCol>{birth}</MDBCol></center>
       </MDBRow>
 
 
       <MDBRow>
-      <center>  <MDBCol><h3 className='is-size-2'>{country}</h3></MDBCol></center>
+      <center>  <MDBCol>{country}</MDBCol></center>
+      </MDBRow>
+
+      <MDBRow>
+      <center>  <MDBCol> {passnum}</MDBCol></center>
+      </MDBRow>
+      <MDBRow>
+      <center>  <MDBCol> {phone}</MDBCol></center>
+      </MDBRow>
+      <MDBRow>
+      <center>  <MDBCol> {address}</MDBCol></center>
+      </MDBRow>
+      <MDBRow>
+      <center>  <MDBCol> {occupation}</MDBCol></center>
+      </MDBRow>
+      <MDBRow className='pb-3'>
+      <center>  <MDBCol>Status: {status}</MDBCol></center>
       </MDBRow>
 
       </MDBCol>
+      <center>
+      <MDBRow>
+      <MDBCol> 
+      Passport PDF : 
+      </MDBCol>
+      <MDBCol> 
+      <Button color="info  is-small" onClick={() => { download(filename) }}>Download Passport</Button>
+      </MDBCol>
+      </MDBRow>
+      </center>
+      <center>
+      <MDBRow>
+      <MDBCol> 
+      Video 5 sec of customer : 
+      </MDBCol>
+      <MDBCol> 
+      <Button color="info  is-small"  onClick={() => { download(video) }}>Download Video</Button>
+      </MDBCol>
+      </MDBRow>
+      </center>
       </MDBCard>
       
   </div>
