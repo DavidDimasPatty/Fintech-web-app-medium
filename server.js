@@ -82,7 +82,8 @@ const updatepdf = async(e)=>{
   const devEnv=process.env.NODE_ENV !== "production";
   const {REACT_APP_DEV_URL,REACT_APP_PROD_URL} =process.env;
     await axios.patch(`${devEnv  ? REACT_APP_DEV_URL : REACT_APP_PROD_URL}/customer/${param1}`,{         
-        filename:param2
+        filename:param2,
+        status:"Section 2"
     })
           
 }
@@ -91,7 +92,8 @@ const updatevideo = async(e)=>{
   const devEnv=process.env.NODE_ENV !== "production";
   const {REACT_APP_DEV_URL,REACT_APP_PROD_URL} =process.env;
     await axios.patch(`${devEnv  ? REACT_APP_DEV_URL : REACT_APP_PROD_URL}/customer/${param3}`,{         
-        videourl:param4
+        videourl:param4,
+        status:"Section 3"
     })
           
 }

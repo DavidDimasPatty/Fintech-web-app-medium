@@ -32,10 +32,7 @@ const Dashboard = ({  collapsed, toggled, handleToggleSidebar }) => {
       <NavLink to="/customers" activeClassName="active">
         Customer List</NavLink>
       </li>
-      <li>
-      <NavLink to="/profile" activeClassName="active">
-        Profile</NavLink>
-      </li>
+    
 
       <li>
       <NavLink to="/onboard" activeClassName="active">

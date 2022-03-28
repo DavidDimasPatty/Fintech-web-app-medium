@@ -15,11 +15,25 @@ const Mail = () => {
   const {url_mail}=useParams();
   const {username}=useParams();
   const [id, setid]=useState('');
-
+  const [status, setstatus]=useState('');
   useEffect(() => {
     checkemail();
     checkid();
   }, []);
+
+  function checkstatus(stat){
+    
+   
+    if(stat==="Section 1"){
+      history.push(`/mail/${url_mail}/${username}`)
+    }
+    if(stat==="Section 3"){
+      history.push(`/mail3/${url_mail}/${username}`)
+    }
+    if(stat==="Complete"){
+      history.push(`/complete/${url_mail}/${username}`)
+    }
+  }
 
   function handleUploadChange(e) {
     let uploaded = e.target.files[0];
@@ -40,6 +54,8 @@ const Mail = () => {
     .then((respon)=>{
       console.log(respon.data[0].id)
       setid(respon.data[0].id);
+     const stat=respon.data[0].status;
+      checkstatus(stat);
     })
     }
 

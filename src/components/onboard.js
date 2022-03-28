@@ -37,6 +37,7 @@ const Onboard = () => {
       email: email,
       birth: "",
       country: "",
+      status:"Section 1",
       createdAt: Date.now(),
       updatedAt: Date.now(),
       })
@@ -58,6 +59,8 @@ const Onboard = () => {
            `
           }
        }).then((respon)=>{
+         setusername('')
+         setemail('')
          console.log(respon.data);
            })
      }

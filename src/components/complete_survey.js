@@ -10,11 +10,45 @@ import { MDBContainer, MDBRow, MDBCol,
 import 'bulma/css/bulma.min.css';
 const CompleteSurvey = () => {
     const history=useHistory();
+    const [id, setid]=useState('');
+    const {username}=useParams();
+  const [status, setstatus]=useState('');
   const {url_mail}=useParams();
 
     useEffect(() => {
         checkemail();
+        checkid();
+        checkstatus();
       }, []);
+
+      const checkid=async(e)=>{
+        const devEnv=process.env.NODE_ENV !== "production";
+        const {REACT_APP_DEV_URL,REACT_APP_PROD_URL} =process.env;
+        await axios.get(`${devEnv  ? REACT_APP_DEV_URL : REACT_APP_PROD_URL}/customer`,{
+          params:{
+            name:username
+          }  
+        
+        })
+        .then((respon)=>{
+          console.log(respon.data[0].id)
+          setid(respon.data[0].id);
+          const stat=respon.data[0].status;
+           checkstatus(stat);
+        })
+        }
+      function checkstatus(stat){
+        console.log(stat);
+        if(stat==="Section 2"){
+          history.push(`/mail2/${url_mail}/${username}`)
+        }
+        if(stat==="Section 3"){
+          history.push(`/mail3/${url_mail}/${username}`)
+        }
+        if(stat==="Section 1"){
+          history.push(`/mail/${url_mail}/${username}`)
+        }
+      }
     
         const checkemail=async(e)=>{
           const devEnv=process.env.NODE_ENV !== "production";

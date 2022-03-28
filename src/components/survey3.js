@@ -20,11 +20,25 @@ const Mail3 = () => {
   const date_create= moment().format("DD-MM-YYYY hh:mm:ss")
   const {url_mail}=useParams();
   const {username}=useParams();
+  const [status, setstatus]=useState('');
 
   useEffect(() => {
     checkemail();
     checkid();
   }, []);
+
+  function checkstatus(stat){
+    
+    if(stat==="Section 2"){
+      history.push(`/mail2/${url_mail}/${username}`)
+    }
+    if(stat==="Section 1"){
+      history.push(`/mail/${url_mail}/${username}`)
+    }
+    if(stat==="Complete"){
+      history.push(`/complete/${url_mail}/${username}`)
+    }
+  }
 
     const checkemail=async(e)=>{
       const devEnv=process.env.NODE_ENV !== "production";
@@ -58,6 +72,8 @@ const Mail3 = () => {
       .then((respon)=>{
         console.log(respon.data[0].id)
         setid(respon.data[0].id);
+        const stat=respon.data[0].status;
+         checkstatus(stat);
       })
       }
 
@@ -71,7 +87,7 @@ const Mail3 = () => {
             occupation:occupation,
             address:address,
             phone:phone,
-            status:"complete",
+            status:"Complete",
             updatedAt:Date.now()
         })
         history.push(`/complete/${url_mail}/${username}`)
