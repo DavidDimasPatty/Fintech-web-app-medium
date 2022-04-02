@@ -1,0 +1,24 @@
+.profileImage{
+    width: 300px;
+    clip-path: circle();
+    background-color: #F5F5F5;
+}
+button{
+    display: block;
+    width: 200px;
+    padding: 10px;
+    border-color: transparent;
+    border-width: 1px;
+    border-radius: 4px;
+    justify-content: center;
+    text-align: center;
+    text-decoration: none;
+    font-size: medium;
+    color: #fff;
+    background-color: #3e8ed0;
+    cursor: pointer;
+}
+button:hover{
+    background-image: linear-gradient(rgba(0, 0, 0, 0.02) 0 0);
+    color: #fff;
+}
