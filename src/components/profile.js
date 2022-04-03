@@ -74,23 +74,59 @@ const Profile = () => {
         </ul>
       </nav>
 
-      <div className="cardContainer mt-5 column is-10">
+      <div className="cardContainer mt-5 mb-5 column is-10">
         
         <center>
           <img className="profileImage" src="https://freepikpsd.com/file/2019/10/default-profile-image-png-1-Transparent-Images.png"/>
-          <div className="is-size-2">{name}</div>
-          <div className="is-size-2">{email}</div>
-          <div className="is-size-2">{birth}</div>
-          <div className="is-size-2">{country}</div>
-          <div className="is-size-2">{passnum}</div>
-          <div className="is-size-2">{phone}</div>
-          <div className="is-size-2">{address}</div>
-          <div className="is-size-2">{occupation}</div>
-          <div className="is-size-2">Status: {status}</div>
-          <div className="is-size-2">Passport PDF:</div>
+          <div className="profileInfo">
+            <div className="is-size-4">Name</div>
+            <span className="is-size-4">:</span>
+            <div className="is-size-4">{(name === "" || name == null) ? "-" : name}</div>
+          </div>
+          <div className="profileInfo">
+            <div className="is-size-4">Email</div>
+            <span className="is-size-4">:</span>
+            <div className="is-size-4">{(email === "" || email == null) ? "-" : email}</div>
+          </div>
+          <div className="profileInfo">
+            <div className="is-size-4">Birth</div>
+            <span className="is-size-4">:</span>
+            <div className="is-size-4">{(birth === "" || birth == null) ? "-" : birth}</div>
+          </div>
+          <div className="profileInfo">
+            <div className="is-size-4">Country</div>
+            <span className="is-size-4">:</span>
+            <div className="is-size-4">{(country === "" || country == null) ? "-" : country}</div>
+          </div>
+          <div className="profileInfo">
+            <div className="is-size-4">Passport</div>
+            <span className="is-size-4">:</span>
+            <div className="is-size-4">{(passnum === "" || passnum == null) ? "-" : passnum}</div>
+          </div>
+          <div className="profileInfo">
+            <div className="is-size-4">Phone</div>
+            <span className="is-size-4">:</span>
+            <div className="is-size-4">{(phone === "" || phone == null) ? "-" : phone}</div>
+          </div>
+          <div className="profileInfo">
+            <div className="is-size-4">Address</div>
+            <span className="is-size-4">:</span>
+            <div className="is-size-4">{(address === "" || address == null) ? "-" : address}</div>
+          </div>
+          <div className="profileInfo">
+            <div className="is-size-4">Occupation</div>
+            <span className="is-size-4">:</span>
+            <div className="is-size-4">{(occupation === "" || occupation == null) ? "-" : occupation}</div>
+          </div>
+          <div className="profileInfo">
+            <div className="is-size-4">Status</div>
+            <span className="is-size-4">:</span>
+            <div className="is-size-4">{(status === "" || status == null) ? "-" : status}</div>
+          </div>
+          <div className="is-size-3 mt-5">Passport PDF :</div>
           <button color="info is-small" onClick={() => { download(filename) }}>Download Passport</button>
-          <div className="is-size-2">Video 5 sec of customer:</div>
-          <button color="info is-small" onClick={() => { download(video) }}>Download Video</button>
+          <div className="is-size-3 mt-5">Video 5 sec of customer :</div>
+          <button className="mb-5" color="info is-small" onClick={() => { download(video) }}>Download Video</button>
         </center>
         
       </div>

@@ -1,8 +1,6 @@
 import React, {useState} from "react";
 import {useHistory} from "react-router-dom";
 import axios from "axios";
-import {MDBContainer, MDBRow, MDBCol, MDBCard, MDBBtn} from "mdbreact";
-import {Button} from "react-bulma-components";
 import moment from "moment";
 import "bulma/css/bulma.min.css";
 import "./onboard.css";
@@ -82,31 +80,17 @@ const Onboard = () => {
         </nav>
       
       </div>
-      
-      <MDBContainer>
-        <MDBCard className="mt-5 column is-10">
-          <MDBCol>
-            <MDBRow className="mb-2">
-              <MDBCol><h2 className="is-size-2">Customer Form</h2></MDBCol>
-            </MDBRow>
-            <MDBRow>
-              <MDBCol>Username</MDBCol>
-            </MDBRow>
-            <MDBRow>
-              <MDBCol><input className="input is-info is-small column is-6" type="text" placeholder="username" value={username} onChange={(e) => setusername(e.target.value)}/></MDBCol>
-            </MDBRow>
-            <MDBRow>
-              <MDBCol>Email</MDBCol>
-            </MDBRow>
-            <MDBRow>
-              <MDBCol><input className="input is-info is-small column is-6" type="email" placeholder="email" value={email} onChange={(e) => setemail(e.target.value)}/></MDBCol>
-            </MDBRow>
-            <MDBRow className="mt-2 pb-4">
-              <MDBCol><Button color="info" onClick={saveUrl}>Generate Link</Button></MDBCol>
-            </MDBRow>
-          </MDBCol>
-        </MDBCard>
-      </MDBContainer>
+
+      <div className="customerForm mt-5 column is-10">
+        <div className="mb-2">
+          <div className="is-size-3 mb-5">Customer Form</div>
+          <div className="mt-2">Username</div>
+          <input className="input is-info is-small column is-8" type="text" placeholder="username" value={username} onChange={(e) => setusername(e.target.value)}></input>
+          <div className="mt-2">Email</div>
+          <input className="input is-info is-small column is-8" type="email" placeholder="email" value={email} onChange={(e) => setemail(e.target.value)}></input>
+          <button className="mt-5" color="info" onClick={saveUrl}>Generate Link</button>
+        </div>
+      </div>
     
     </center>
   

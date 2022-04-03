@@ -1,7 +1,25 @@
 .profileImage{
-    width: 300px;
+    margin-bottom: 20px;
+    width: 200px;
     clip-path: circle();
     background-color: #F5F5F5;
+}
+.profileInfo{
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+}
+.profileInfo > div:first-child{
+    width: 40%;
+    padding-left: 20%;
+    text-align: left;
+}
+.profileInfo > div:last-child{
+    width: 40%;
+    padding-left: 40px;
+    text-align: left;
+    white-space: nowrap;
 }
 button{
     display: block;
